@@ -14,7 +14,7 @@ const browserInitialization = async (browserUrl) => {
     "--disable-dev-shm-usage",
     "--no-zygote",
     "--single-process"
-  ], executablePath:process.env.PUPPETEER_EXECUTABLE_PATH || "/usr/bin/google-chrome" });
+  ]});
   const page = await browser.newPage();
   await page.setUserAgent({
     userAgent: header,
