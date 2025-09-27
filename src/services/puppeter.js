@@ -8,7 +8,13 @@ const PASSWORD = process.env.USER_PASSWORD;
 
 const browserInitialization = async (browserUrl) => {
   const header = randomUserAgent();
-  const browser = await puppeteer.launch({ headless: true });
+  const browser = await puppeteer.launch({ args:[
+    "--no-sandbox",
+    "--disable-setuid-sandbox",
+    "--disable-dev-shm-usage",
+    "--no-zygote",
+    "--single-process"
+  ], executablePath:process.env.PUPPETEER_EXECUTABLE_PATH || "/usr/bin/google-chrome" });
   const page = await browser.newPage();
   await page.setUserAgent({
     userAgent: header,
