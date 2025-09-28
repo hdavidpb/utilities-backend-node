@@ -8,7 +8,7 @@ const PASSWORD = process.env.USER_PASSWORD;
 
 const browserInitialization = async (browserUrl) => {
   const header = randomUserAgent();
-  const browser = await puppeteer.launch({ args:[
+  const browser = await puppeteer.launch({args:[
     "--no-sandbox",
     "--disable-setuid-sandbox",
     "--disable-dev-shm-usage",
@@ -73,6 +73,8 @@ export const gasesDelCaribeInit = async (browserUrl) => {
   try {
     const { page, browser } = await browserInitialization(browserUrl);
 
+    await page.click('button[id="NoAuthHeader_button_login"]');
+
     const emailInput = await page.$('input[type="email"]');
     const passwordInput = await page.$('input[type="password"]');
     await emailInput.type(EMAIL);
@@ -87,19 +89,20 @@ export const gasesDelCaribeInit = async (browserUrl) => {
           const text = await p.evaluate((el) => el.textContent.trim());
           arr.push(text);
         }
-        const utility = [
-          {
-            date: arr[5],
-            total: arr[10],
-            status: arr[9],
-          },
-        ];
+        const utility =  {
+            date: arr[4],
+            total: arr[9],
+            status: arr[8],
+            contract: arr[1],
+         }
+        ;
         resolve(utility);
         browser.close();
       }, 6000);
     });
 
     return await getUtility;
+
   } catch (error) {
     return [];
   }
