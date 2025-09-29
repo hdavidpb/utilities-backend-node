@@ -73,10 +73,11 @@ export const gasesDelCaribeInit = async (browserUrl) => {
   try {
     const { page, browser } = await browserInitialization(browserUrl);
 
+    await page.waitForSelector('button[id="NoAuthHeader_button_login"]');
     await page.click('button[id="NoAuthHeader_button_login"]');
 
-    const emailInput = await page.$('input[type="email"]');
-    const passwordInput = await page.$('input[type="password"]');
+    const emailInput = await page.waitForSelector('input[type="email"]');
+    const passwordInput = await page.waitForSelector('input[type="password"]');
     await emailInput.type(EMAIL);
     await passwordInput.type(PASSWORD);
     await page.click('button[type="submit"]');
